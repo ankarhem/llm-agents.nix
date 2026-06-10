@@ -42,6 +42,11 @@ rustPlatform.buildRustPackage {
     ORT_PREFER_DYNAMIC_LINK = "1";
   };
 
+  postInstall = ''
+    mkdir -p $out/share/ck
+    cp docs-site/public/AGENTS.md $out/share/ck/
+  '';
+
   postFixup = lib.optionalString stdenv.hostPlatform.isDarwin ''
     install_name_tool -add_rpath "${lib.getLib onnxruntime}/lib" $out/bin/ck
   '';
